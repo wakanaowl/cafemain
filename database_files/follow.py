@@ -1,15 +1,11 @@
-import pyodbc
+from flask import Flask
+import sqlite3
 
-server = 'khan-sql-server.database.windows.net'
-database = 'khan-sql-database-02'
-username = 'khansqlsever'
-password = '{aH9kRZur}'
-driver = '{ODBC Driver 17 for SQL Server}'
+db_path = "test.db"
 
 def follow(followee,follower):
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                         ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
-    cur = conn.cursor()
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
     try:
         if(len(followee) >= 40):
             return "followee is too long"
@@ -18,9 +14,9 @@ def follow(followee,follower):
         cur.execute(
             "INSERT user_followings (followee,follower) VALUES ('{}','{}');".format(followee,follower)
         )
-        conn.commit()
+        con.commit()
         cur.close()
-        conn.close()
+        con.close()
         return "success"
     except Exception as e:
         print("err:" + str(e))

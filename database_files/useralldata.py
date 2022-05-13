@@ -1,15 +1,10 @@
-import pyodbc
+from flask import Flask
+import sqlite3
 
-server = 'khan-sql-server.database.windows.net'
-database = 'khan-sql-database-02'
-username = 'khansqlsever'
-password = '{aH9kRZur}'
-driver = '{ODBC Driver 17 for SQL Server}'
-
+db_path = "test.db"
 
 def useralldata(uid):
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                          ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
+    con = sqlite3.connect(db_path)
 
     jsonify = ({
         "data":[],
@@ -19,7 +14,7 @@ def useralldata(uid):
 
     })
     
-    cur = conn.cursor()
+    cur = con.cursor()
     try:
         if(len(uid) >= 40):
             return "follwer is too long"
@@ -30,7 +25,7 @@ def useralldata(uid):
         )
         # INNER JOIN photos AS T5 ON T2.cafeid = T5.cafeid
         data = cur.fetchall()
-        conn.commit()
+        con.commit()
 
         print(1)
 
@@ -40,7 +35,7 @@ def useralldata(uid):
             )
         )
         followeeusers = cur.fetchall()
-        conn.commit()
+        con.commit()
 
         cur.execute(
             "select COUNT(*) from users AS T1 INNER JOIN visited_cafes AS T2 ON T1.uid = T2.uid where T1.uid = '{}';".format(
@@ -48,7 +43,7 @@ def useralldata(uid):
             )
         )
         visitcafes = cur.fetchall()
-        conn.commit()
+        con.commit()
 
         print(2)
 
@@ -58,7 +53,7 @@ def useralldata(uid):
             )
         )
         followerusers = cur.fetchall()
-        conn.commit()
+        con.commit()
 
         print(3)
 
@@ -68,7 +63,7 @@ def useralldata(uid):
             )
         )
         name = cur.fetchall()
-        conn.commit()
+        con.commit()
 
         print(4)
 
@@ -78,7 +73,7 @@ def useralldata(uid):
             )
         )
         follower = cur.fetchall()
-        conn.commit()
+        con.commit()
 
         print(5)
 
@@ -88,7 +83,7 @@ def useralldata(uid):
             )
         )
         followee = cur.fetchall()
-        conn.commit()
+        con.commit()
 
 
 
@@ -116,7 +111,7 @@ def useralldata(uid):
         for i in data:
             cur.execute("select * from photos where cafeid = '{}';".format(i[2]))
             photo = cur.fetchall()
-            conn.commit()
+            con.commit()
             photos = []
             for l in photo:
                 photos.append(str(l[1]))
@@ -137,7 +132,7 @@ def useralldata(uid):
 
             
         cur.close()
-        conn.close()
+        con.close()
         return jsonify
     except Exception as e:
         print("err:" + str(e))

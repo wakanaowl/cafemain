@@ -1,16 +1,11 @@
-import json
-import pyodbc
+from flask import Flask
+import sqlite3
 
-server = 'khan-sql-server.database.windows.net'
-database = 'khan-sql-database-02'
-username = 'khansqlsever'
-password = '{aH9kRZur}'
-driver = '{ODBC Driver 17 for SQL Server}'
+db_path = "test.db"
 
 def search_users(jsondata):
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                         ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
-    cur = conn.cursor()
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
     try:
         if(len(jsondata) >= 40):
             return "uid is too long"
@@ -19,9 +14,9 @@ def search_users(jsondata):
             "select * from users where uid = '{}'".format(str(jsondata))
         )
         data = cur.fetchall()
-        conn.commit()
+        con.commit()
         cur.close()
-        conn.close()
+        con.close()
         print(data)
 
         for i in data:

@@ -1,15 +1,11 @@
-import pyodbc
+from flask import Flask
+import sqlite3
 
-server = 'khan-sql-server.database.windows.net'
-database = 'khan-sql-database-02'
-username = 'khansqlsever'
-password = '{aH9kRZur}'
-driver = '{ODBC Driver 17 for SQL Server}'
+db_path = "test.db"
 
 def create_user(json_data):
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                         ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
-    cur = conn.cursor()
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
     try:
         if(len(json_data["name"]) >= 20):
             return "name is too long"
@@ -18,9 +14,9 @@ def create_user(json_data):
         cur.execute(
             "INSERT users (name,uid) VALUES ('{}','{}');".format(json_data["name"],json_data['uid'])
         )
-        conn.commit()
+        con.commit()
         cur.close()
-        conn.close()
+        con.close()
         return "success"
     except Exception as e:
         print("err:" + str(e))

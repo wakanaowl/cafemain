@@ -3,16 +3,17 @@ import sqlite3
 
 db_path = "test.db"
 
-def find_followee(id_json):
-    cnxn = sqlite3.connect(db_path)
+def follow_infomation(id_json):
 
+    cnxn = sqlite3.connect(db_path)
+    
     cursor = cnxn.cursor()
 
     cursor.execute(
-        "SELECT followee FROM user_followings WHERE user_followings.follower = '{}'".format(id_json["uid"]))
+        "SELECT name FROM users INNER JOIN user_followings ON users.uid = user_followings.followee AND user_followings.follower = '{}'".format(id_json["uid"]))
 
     jsonify = ({
-        "uids": []
+        "names": []
     })
 
     res = cursor.fetchone()
@@ -21,15 +22,14 @@ def find_followee(id_json):
         print(str(res[0]))
 
         send_data = {
-            "uid": str(res[0])
+            "name": str(res[0])
         }
 
         res = cursor.fetchone()
 
-        jsonify["uids"].append(send_data)
+        jsonify["names"].append(send_data)
 
     cursor.close()
     cnxn.close()
 
     return jsonify
-

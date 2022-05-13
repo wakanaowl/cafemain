@@ -1,16 +1,11 @@
-from flask import jsonify
-import pyodbc
+from flask import Flask
+import sqlite3
 
-server = 'khan-sql-server.database.windows.net'
-database = 'khan-sql-database-02'
-username = 'khansqlsever'
-password = '{aH9kRZur}'
-driver = '{ODBC Driver 17 for SQL Server}'
+db_path = "test.db"
 
 
 def cafe_get_by_cafeid(cafeid):
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                          ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
+    conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     try:
         if(len(cafeid) >= 40):

@@ -1,29 +1,26 @@
-import pyodbc
+from flask import Flask
+import sqlite3
 import uuid
 
-server = 'khan-sql-server.database.windows.net'
-database = 'khan-sql-database-02'
-username = 'khansqlsever'
-password = '{aH9kRZur}'
-driver = '{ODBC Driver 17 for SQL Server}'
+db_path = "test.db"
 
-def initialized():
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                         ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
-    cur = conn.cursor()
-    try:
-        cur.execute(
-            "create table cafe_table(cafeid char(40) NOT NULL,website text NOT NULL,address text NOT NULL,cafename text NOT NULL,locationX float NOT NULL,locationY float NOT NULL,googlelink text NOT NULL PRIMARY KEY (locationX,locationY));"
-        )
-    except Exception as e:
-        print("err:" + str(e))
-        return 1
-    return 0
+# def initialized():
+#     conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
+#                          ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
+#     cur = conn.cursor()
+#     try:
+#         cur.execute(
+#             "create table cafe_table(cafeid char(40) NOT NULL,website text NOT NULL,address text NOT NULL,cafename text NOT NULL,locationX float NOT NULL,locationY float NOT NULL,googlelink text NOT NULL PRIMARY KEY (locationX,locationY));"
+#         )
+#     except Exception as e:
+#         print("err:" + str(e))
+#         return 1
+#     return 0
 
 
 def cafe_insert(json_data,userid):
-    conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
-                         ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password)
+    conn = sqlite3.connect(db_path)
+
     cur = conn.cursor()
     uid = str(uuid.uuid4())
     try:
