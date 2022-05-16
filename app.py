@@ -1,7 +1,7 @@
-from database_files.cafe_get_by_cafeid import cafe_get_by_cafeid
-from database_files.cafeinsert import cafe_insert
 from flask import Flask
+from flask_cors import CORS
 from flask import request
+from database_files.cafeinsert import cafe_insert
 from mapapi_files.parsejson import parsejson
 from mapapi_files.process import process
 from database_files.createuser import create_user
@@ -9,12 +9,12 @@ from database_files.follow import follow
 from database_files.love import love_cafes
 from database_files.photorefe_to_cafeid import photorefe_to_cafeid
 from database_files.search_user import search_users
-from flask_cors import CORS
-from database_files.find_followee import find_followee , follow_infomation , timeline_info
-from database_files.test_files.test2 import find_followeeee,fllowee_visited_cafes,fllowee_cafe_photos,find_followee_name
-from database_files.find_followee import find_followee , follow_infomation
+from database_files.find_followee import find_followee
 from database_files.useralldata import useralldata
 from database_files.id_test import insert_users
+from database_files.timeline_info import timeline_info
+from database_files.follow_info import follow_infomation
+from database_files.cafe_info import cafe_get_by_cafeid
 
 app = Flask(__name__)
 CORS(app)
@@ -29,15 +29,6 @@ def insert():
     insert_users(json_data)
 
     return json_data
-    
-
-@app.route('/initializeddb', methods=['GET'])
-def initializeddb():
-    a = initialized()
-    if a == 0:
-        return "saccess"
-    else:
-        return "err"
     
 
 @app.route('/insert_cafe', methods=['POST'])
@@ -109,15 +100,6 @@ def get_timeline_info():
         return_json = timeline_info(request.json["id_json"])
     return return_json
 
-@app.route('/followeephoto',methods=['POST'])
-def get_flloweecafe_photo():
-    if request.method == 'POST':
-        floweeids = find_followeeee(request.json["id_json"])
-        fname = find_followee_name(request.json["id_json"])
-        cafeids = fllowee_visited_cafes(floweeids)
-        return_json = fllowee_cafe_photos(fname,cafeids)
-    return return_json
-
 @app.route('/useralldata', methods=['POST'])
 def useralldatas():
     if request.method == 'POST':
@@ -129,6 +111,16 @@ def photorefe_to_cafe():
     if request.method == 'POST':
         return_json = photorefe_to_cafeid(request.json["photorefe"])
     return return_json
+
+# @app.route('/followeephoto',methods=['POST'])
+# def get_flloweecafe_photo():
+#     if request.method == 'POST':
+#         floweeids = find_followeeee(request.json["id_json"])
+#         fname = find_followee_name(request.json["id_json"])
+#         cafeids = fllowee_visited_cafes(floweeids)
+#         return_json = fllowee_cafe_photos(fname,cafeids)
+#     return return_json
+
 
 if __name__ == '__main__':
     app.run()
