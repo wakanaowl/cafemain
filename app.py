@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask
 from flask_cors import CORS
 from flask import request
@@ -45,6 +46,12 @@ def search_cafe():
     dbdata = cafe_insert(json_data,loc['uid'])
     print(dbdata)
     return json_data
+
+
+@app.route('/user_followings',methods=['POSt'])
+def user_followings():
+    json_data = request.json
+    follow(json_data["folowee"],json_data["follower"])
 
 @app.route('/follow_by_qr',methods=['GET'])
 def follow_by_qr():
