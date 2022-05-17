@@ -19,17 +19,16 @@ def useralldata(uid):
         if(len(uid) >= 40):
             return "follwer is too long"
         cur.execute(
-            # "select * from users AS T1 INNER JOIN visited_cafes AS T2 ON T1.uid = T2.uid INNER JOIN cafe_table AS T4 ON T2.cafeid = T4.cafeid where T1.uid = '{}';".format(
-            #     uid
-            # )
-            "select name from sqlite_master where type='table';"
+            "select * from users AS T1 INNER JOIN visited_cafes AS T2 ON T1.uid = T2.uid INNER JOIN cafe_table AS T4 ON T2.cafeid = T4.cafeid where T1.uid = '{}';".format(
+                uid
+            )
         )
         
         # INNER JOIN photos AS T5 ON T2.cafeid = T5.cafeid
         data = cur.fetchall()
         con.commit()
 
-        print(data)
+        print(1)
 
         cur.execute(
             "select * from users AS T1 INNER JOIN user_followings AS T2 ON T1.uid = T2.followee where T1.uid = '{}';".format(
