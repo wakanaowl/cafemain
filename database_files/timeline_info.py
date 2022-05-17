@@ -1,7 +1,7 @@
 from flask import Flask
 import sqlite3
 
-db_path = "test.db"
+db_path = "cafe.db"
 
 def timeline_info(json_data):
 

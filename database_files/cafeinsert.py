@@ -2,7 +2,7 @@ from flask import Flask
 import sqlite3
 import uuid
 
-db_path = "test.db"
+db_path = "cafe.db"
 
 # def initialized():
 #     conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server +
