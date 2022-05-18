@@ -51,7 +51,8 @@ def search_cafe():
 @app.route('/user_followings',methods=['POSt'])
 def user_followings():
     json_data = request.json
-    follow(json_data["folowee"],json_data["follower"])
+    i = follow(json_data["followee"],json_data["follower"])
+    return i 
 
 @app.route('/follow_by_qr',methods=['GET'])
 def follow_by_qr():
@@ -82,6 +83,7 @@ def serchuser():
     uid = request.args.get('uid', '')
     i = search_users(uid)
     return i
+
 
 @app.route('/findfollowee',methods=['POST'])
 def find_followee123():

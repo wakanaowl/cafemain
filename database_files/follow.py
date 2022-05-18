@@ -12,7 +12,7 @@ def follow(followee,follower):
         if(len(follower) >= 40):
             return "follwer is too long"
         cur.execute(
-            "INSERT user_followings (followee,follower) VALUES ('{}','{}');".format(followee,follower)
+            "INSERT into user_followings (followee,follower) VALUES ('{}','{}');".format(followee,follower)
         )
         con.commit()
         cur.close()
