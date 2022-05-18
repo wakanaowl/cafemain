@@ -6,6 +6,12 @@ db_path = "cafe.db"
 def follow(followee,follower):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
+
+
+    cur.execute(
+    "PRAGMA foreign_keys = ON;"
+        )
+    con.commit()
     try:
         if(len(followee) >= 40):
             return "followee is too long"

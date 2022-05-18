@@ -1,8 +1,24 @@
 import sqlite3
 
 con = sqlite3.connect('cafe.db')
+"create table users(uid varchar(40) PRIMARYKEY, name varchar(20), unique(uid))"
+cur = con.cursor()
+cur.execute(
+    "PRAGMA foreign_keys = ON;"
+    )
+con.commit()
 
-con.execute("create table cafe_table(cafeid varchar(40) NOT NULL,website text NOT NULL,address text NOT NULL,cafename text NOT NULL,locationX float NOT NULL,locationY float NOT NULL,googlelink text NOT NULL, PRIMARY KEY (locationX,locationY))")
+res = cur.fetchall()
+print(res)
+
+con.commit()
+cur = con.cursor()
+cur.execute(
+    "PRAGMA foreign_keys;"
+    )
+
+res = cur.fetchall()
+print(res)
 
 con.commit()
 

@@ -22,6 +22,10 @@ def cafe_insert(json_data,userid):
     conn = sqlite3.connect(db_path)
 
     cur = conn.cursor()
+    cur.execute(
+        "PRAGMA foreign_keys = ON;"
+    )
+    conn.commit()
     uid = str(uuid.uuid4())
     try:
         # print(json_data['data'][0]['adress'], json_data['data'][0]['googlelink'], json_data['data'][0]['name'], json_data['data'][0]['website'], json_data['data'][0]['locationX'], json_data['data'][0]['locationY'])
@@ -57,7 +61,7 @@ def cafe_insert(json_data,userid):
             cafeid = str(datas[0]).split("'")
             cur.execute(
                 "INSERT INTO visited_cafes (cafeid,uid) VALUES ('{}','{}')".format(
-                    cafeid[1], 2)
+                    cafeid[1], userid)
             )
             conn.commit()
             cur.close()
