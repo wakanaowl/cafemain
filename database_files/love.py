@@ -6,6 +6,10 @@ db_path = "test.db"
 def love_cafes(jsondata):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
+    cur.execute(
+        "PRAGMA foreign_keys = ON;"
+    )
+    con.commit()
     try:
         if(len(jsondata['uid']) >= 40):
             return "uid is too long"
