@@ -48,7 +48,7 @@ def cafe_insert(json_data,userid):
         conn.commit()
         cur.close()
         conn.close()
-        return "sucess"
+        return "SUCCESS"
     except Exception as e:
         print(str(e))
         try:

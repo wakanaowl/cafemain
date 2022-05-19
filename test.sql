@@ -1,9 +1,1 @@
-CREATE TABLE visited_cafes(
-    cafeid varchar(40) NOT NULL PRIMARY KEY,
-    photoreference text NOT NULL,
-    CONSTRAINT cafe_table
-    FOREIGN KEY (cafeid) 
-    REFERENCES cafe_table (cafeid)
-)
-
-create table photos (cafeid varchar(40) NOT NULL PRIMARY KEY,photoreference text NOT NULL, FOREIGN KEY cafeid REFERENCES cafe_table(cafeid))
+SELECT name , Y.cafeid , photoreference, Y.uid  FROM users X   INNER JOIN visited_cafes Y ON Y.uid = X.uid INNER JOIN photos ON photos.cafeid = Y.cafeid ORDER BY name DESC".format(json_data["uid"])

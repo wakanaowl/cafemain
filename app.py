@@ -45,7 +45,7 @@ def search_cafe():
         return "近くにカフェがありません"
     dbdata = cafe_insert(json_data,loc['uid'])
     print(dbdata)
-    return json_data
+    return dbdata
 
 
 @app.route('/user_followings',methods=['POSt'])
@@ -103,10 +103,12 @@ def getdafe_by_cafeid():
         return_json = cafe_get_by_cafeid(request.json["cafeid"])
     return return_json
 
-@app.route('/home_screen',methods=['POST'])
+@app.route('/home_screen',methods=['POST',"GET"])
 def get_timeline_info():
     if request.method == 'POST':
-        return_json = timeline_info(request.json["id_json"])
+        return_json = timeline_info()
+    else:    
+        return_json = timeline_info()
     return return_json
 
 @app.route('/useralldata', methods=['POST'])
