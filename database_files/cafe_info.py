@@ -3,7 +3,6 @@ import sqlite3
 
 db_path = "cafe.db"
 
-
 def cafe_get_by_cafeid(cafeid):
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
